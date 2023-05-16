@@ -8,10 +8,16 @@ import {
 } from "solid-js";
 
 import { Person } from "./pages/person";
+import { Jobs } from "./pages/jobs";
+import { Education } from "./pages/education";
 
 interface Page {
   pathname: string;
-  component: JSX.Element;
+  Component: (props: PageProps) => JSX.Element;
+}
+
+export interface PageProps {
+  isVisible: () => boolean;
 }
 
 // the scroll delta that needs to be exceeded before triggering a page update
@@ -19,10 +25,10 @@ const SCROLL_THRESHHOLD = 50;
 
 export const App: Component = () => {
   const PAGES: Page[] = [
-    { pathname: "/personal", component: <Person /> },
-    { pathname: "/jobs", component: <Person /> },
-    { pathname: "/education", component: <Person /> },
-    { pathname: "/hobbies", component: <Person /> },
+    { pathname: "/personal", Component: Person },
+    { pathname: "/jobs", Component: Jobs },
+    { pathname: "/education", Component: Education },
+    { pathname: "/hobbies", Component: Person },
   ];
 
   const [scrolling, setScrolling] = createSignal(false);
@@ -43,7 +49,7 @@ export const App: Component = () => {
     setScrolling(true);
   }
 
-  function scroll(event: WheelEvent) {
+  function handleWheel(event: WheelEvent) {
     if (!app || scrolling()) {
       return;
     }
@@ -65,17 +71,32 @@ export const App: Component = () => {
     }
   }
 
+  function handleKey(event: KeyboardEvent) {
+    if (event.key === "ArrowDown" && page() < PAGES.length - 1) {
+      setPage((prev) => prev + 1);
+    }
+
+    if (event.key === "ArrowUp" && page() > 0) {
+      setPage((prev) => prev - 1);
+    }
+  }
+
   onMount(() => {
     if (!app) {
       return;
     }
 
-    app.addEventListener("wheel", scroll, { passive: true });
+    app.addEventListener("wheel", handleWheel, { passive: true });
+
+    document.addEventListener("keydown", handleKey);
 
     // scroll to persisted page
     const { pathname } = window.location;
     const pageIndex = PAGES.findIndex((page) => page.pathname === pathname);
-    setPage(pageIndex);
+
+    if (pageIndex > 0) {
+      setPage(pageIndex);
+    }
   });
 
   onCleanup(() => {
@@ -83,7 +104,7 @@ export const App: Component = () => {
       return;
     }
 
-    app.removeEventListener("wheel", scroll);
+    app.removeEventListener("wheel", handleWheel);
   });
 
   createEffect(() => {
@@ -91,16 +112,26 @@ export const App: Component = () => {
       return;
     }
 
-    app.scrollTo({ top: page() * window.innerHeight, behavior: "smooth" });
+    const newPage = page();
 
-    // persist page as path param
-    const { pathname } = PAGES[page()];
-    window.history.pushState(pathname, "Title", pathname);
+    app.scrollTo({ top: newPage * window.innerHeight, behavior: "smooth" });
+
+    const data = PAGES[newPage];
+
+    if (data) {
+      // persist page as path param
+      const { pathname } = data;
+      window.history.pushState(pathname, "Title", pathname);
+    }
   });
 
   return (
     <div class="h-screen overflow-hidden" ref={app}>
-      {PAGES.map(({ component }) => component)}
+      {PAGES.map(({ Component }, index) => (
+        <div class="w-screen h-screen flex items-center justify-center">
+          <Component isVisible={() => page() === index} />
+        </div>
+      ))}
     </div>
   );
 };

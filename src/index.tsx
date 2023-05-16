@@ -1,7 +1,10 @@
 /* @refresh reload */
+import "./index.css";
+
 import { render } from "solid-js/web";
 
-import "./index.css";
+import { Navigate, Route, Router, Routes } from "@solidjs/router";
+
 import { App } from "./App";
 
 const root = document.getElementById("root");
@@ -12,4 +15,14 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
   );
 }
 
-render(() => <App />, root!);
+render(
+  () => (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Navigate href="/personal" />} />
+        <Route path="/:page" component={App} />
+      </Routes>
+    </Router>
+  ),
+  root!
+);
