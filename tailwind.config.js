@@ -7,7 +7,17 @@ module.exports = {
     fontFamily: {
       sans: ["Proxima Nova", ...defaultTheme.fontFamily.sans],
     },
-    extend: {},
+    extend: {
+      keyframes: {
+        revealDown: {
+          "0%": { height: 0 },
+          "100%": { height: "100%" },
+        },
+      },
+      animation: {
+        down: "revealDown var(--down-animation-time) var(--down-animation-function)",
+      },
+    },
   },
   plugins: [],
 };

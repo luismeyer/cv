@@ -1,15 +1,11 @@
-import {
-  Component,
-  JSX,
-  createEffect,
-  createSignal,
-  onCleanup,
-  onMount,
-} from "solid-js";
+import { Component, createSignal, JSX, onCleanup, onMount } from "solid-js";
 
-import { Person } from "./pages/person";
-import { Jobs } from "./pages/jobs";
+import { useLocation, useNavigate } from "@solidjs/router";
+
 import { Education } from "./pages/education";
+import { Github } from "./pages/github";
+import { Jobs } from "./pages/jobs";
+import { Person } from "./pages/person";
 
 interface Page {
   pathname: string;
@@ -18,6 +14,7 @@ interface Page {
 
 export interface PageProps {
   isVisible: () => boolean;
+  navigate: (pathname: string) => void;
 }
 
 // the scroll delta that needs to be exceeded before triggering a page update
@@ -28,13 +25,36 @@ export const App: Component = () => {
     { pathname: "/personal", Component: Person },
     { pathname: "/jobs", Component: Jobs },
     { pathname: "/education", Component: Education },
-    { pathname: "/hobbies", Component: Person },
+    { pathname: "/hobbies", Component: () => <div>Hobbies</div> },
+    { pathname: "/github", Component: Github },
   ];
 
   const [scrolling, setScrolling] = createSignal(false);
   const [page, setPage] = createSignal(0);
 
   let app: HTMLDivElement | undefined;
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // scroll to new page and update the location accordingly
+  function navigateToPage(newPage: number) {
+    if (!app) {
+      return;
+    }
+
+    app.scrollTo({ top: newPage * window.innerHeight, behavior: "smooth" });
+
+    const data = PAGES[newPage];
+
+    if (data) {
+      // persist page as path param
+      const { pathname } = data;
+      navigate(pathname);
+    }
+
+    setPage(newPage);
+  }
 
   // unblock the scroll method after timeout which clears after
   // the last wheel event was fired if only doing on scroll
@@ -54,18 +74,20 @@ export const App: Component = () => {
       return;
     }
 
+    // scroll down
     if (event.deltaY > SCROLL_THRESHHOLD && page() < PAGES.length - 1) {
       blockScrolling();
 
-      setPage((prev) => prev + 1);
+      navigateToPage(page() + 1);
 
       clearScrolling();
     }
 
+    // scroll up
     if (event.deltaY < -SCROLL_THRESHHOLD && page() > 0) {
       blockScrolling();
 
-      setPage((prev) => prev - 1);
+      navigateToPage(page() - 1);
 
       clearScrolling();
     }
@@ -73,11 +95,19 @@ export const App: Component = () => {
 
   function handleKey(event: KeyboardEvent) {
     if (event.key === "ArrowDown" && page() < PAGES.length - 1) {
-      setPage((prev) => prev + 1);
+      navigateToPage(page() + 1);
     }
 
     if (event.key === "ArrowUp" && page() > 0) {
-      setPage((prev) => prev - 1);
+      navigateToPage(page() - 1);
+    }
+  }
+
+  function changePage(pathname: string) {
+    const pageIndex = PAGES.findIndex((page) => page.pathname === pathname);
+
+    if (pageIndex !== page()) {
+      navigateToPage(pageIndex);
     }
   }
 
@@ -90,13 +120,7 @@ export const App: Component = () => {
 
     document.addEventListener("keydown", handleKey);
 
-    // scroll to persisted page
-    const { pathname } = window.location;
-    const pageIndex = PAGES.findIndex((page) => page.pathname === pathname);
-
-    if (pageIndex > 0) {
-      setPage(pageIndex);
-    }
+    changePage(location.pathname);
   });
 
   onCleanup(() => {
@@ -105,31 +129,15 @@ export const App: Component = () => {
     }
 
     app.removeEventListener("wheel", handleWheel);
-  });
 
-  createEffect(() => {
-    if (!app) {
-      return;
-    }
-
-    const newPage = page();
-
-    app.scrollTo({ top: newPage * window.innerHeight, behavior: "smooth" });
-
-    const data = PAGES[newPage];
-
-    if (data) {
-      // persist page as path param
-      const { pathname } = data;
-      window.history.pushState(pathname, "Title", pathname);
-    }
+    document.removeEventListener("keydown", handleKey);
   });
 
   return (
     <div class="h-screen overflow-hidden" ref={app}>
       {PAGES.map(({ Component }, index) => (
         <div class="w-screen h-screen flex items-center justify-center">
-          <Component isVisible={() => page() === index} />
+          <Component isVisible={() => page() === index} navigate={changePage} />
         </div>
       ))}
     </div>
