@@ -18,7 +18,7 @@ export function Headline({ input }: HeadlineProps) {
 
   let interval: number | undefined;
 
-  onMount(() => {
+  onMount(function () {
     interval = setInterval(async () => {
       const random = Math.floor(Math.random() * 10);
       if (random === 0) {

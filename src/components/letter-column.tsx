@@ -16,7 +16,9 @@ export function LetterColumn({ running }: LetterColumnProps) {
 
   const animationTime = `${Math.round(Math.random() * 10 + 1)}s`;
 
-  const animationClass = () => (running() ? "animate-down" : "");
+  function animationClass() {
+    return running() ? "animate-down" : "";
+  }
 
   return (
     <span

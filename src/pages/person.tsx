@@ -9,6 +9,10 @@ import { useNavigate } from "../context/navigation";
 export function Person({ isVisible }: PageProps) {
   const navigate = useNavigate();
 
+  function openGithub() {
+    navigate("/github");
+  }
+
   return (
     <div class="grid grid-cols-2 grid-rows-2 max-w-5xl p-8">
       <Portrait />
@@ -30,7 +34,7 @@ export function Person({ isVisible }: PageProps) {
 
         <Link
           // updates the state of the app
-          onClick={() => navigate("/github")}
+          onClick={openGithub}
           // doesn't actually do anything
           href="/github"
           class="bg-main px-3 py-2 w-fit rounded text-white flex gap-2 items-center"

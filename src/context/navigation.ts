@@ -4,7 +4,7 @@ type NavigateFunction = (pathname: string) => void;
 
 export const NavigateContext = createContext<NavigateFunction>();
 
-export const useNavigate = () => {
+export function useNavigate() {
   const navigate = useContext(NavigateContext);
 
   if (!navigate) {
@@ -12,4 +12,4 @@ export const useNavigate = () => {
   }
 
   return navigate;
-};
+}

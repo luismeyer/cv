@@ -1,12 +1,13 @@
-import { Component, createSignal, JSX, onCleanup, onMount } from "solid-js";
+import { createSignal, JSX, onCleanup, onMount } from "solid-js";
 
 import { useLocation, useNavigate } from "@solidjs/router";
 
+import { NavigateContext } from "./context/navigation";
 import { Education } from "./pages/education";
 import { Github } from "./pages/github";
+import { Internships } from "./pages/internships";
 import { Jobs } from "./pages/jobs";
 import { Person } from "./pages/person";
-import { NavigateContext } from "./context/navigation";
 
 interface Page {
   pathname: string;
@@ -23,12 +24,12 @@ const SCROLL_THRESHHOLD = 50;
 // the time in milliseconds it takes to scroll to the next page
 const SCROLL_TIME = 500;
 
-export const App: Component = () => {
+export function App() {
   const PAGES: Page[] = [
     { pathname: "/personal", Component: Person },
     { pathname: "/jobs", Component: Jobs },
     { pathname: "/education", Component: Education },
-    { pathname: "/hobbies", Component: () => <div>Hobbies</div> },
+    { pathname: "/hobbies", Component: Internships },
     { pathname: "/github", Component: Github },
   ];
 
@@ -117,7 +118,7 @@ export const App: Component = () => {
     scrollingDown = false;
   }
 
-  onMount(() => {
+  onMount(function () {
     if (!app) {
       return;
     }
@@ -135,7 +136,7 @@ export const App: Component = () => {
     clearScrolling();
   });
 
-  onCleanup(() => {
+  onCleanup(function () {
     if (!app) {
       return;
     }
@@ -181,4 +182,4 @@ export const App: Component = () => {
       </div>
     </NavigateContext.Provider>
   );
-};
+}

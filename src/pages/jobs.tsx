@@ -10,7 +10,7 @@ const DATA: InfoItem[] = [
     end: "Present",
   },
   {
-    title: "Dual Student at SinnerSchrader Deutschland GmbH, Hamburg",
+    title: "Dual Student at SinnerSchrader, Hamburg",
     description:
       "For my dual studies I worked as a Product Engineer in 10 week intervals, alternating between University and different Client Projects. During the time I was getting to know the daily business of Web-Development and learned the technologies that are used in the industry.",
     start: "October 2018",
