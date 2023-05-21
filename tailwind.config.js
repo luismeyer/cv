@@ -8,6 +8,12 @@ module.exports = {
       sans: ["Proxima Nova", ...defaultTheme.fontFamily.sans],
     },
     extend: {
+      transitionDuration: {
+        2000: "2000ms",
+      },
+      colors: {
+        main: "#02d4d0",
+      },
       keyframes: {
         revealDown: {
           "0%": { height: 0 },

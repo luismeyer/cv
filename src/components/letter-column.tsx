@@ -1,28 +1,34 @@
 import { createRandomArray } from "../utils/create-random-array";
 
-export function LetterColumn() {
+interface LetterColumnProps {
+  running: () => boolean;
+}
+
+const LETTER_HEIGHT = 19;
+
+export function LetterColumn({ running }: LetterColumnProps) {
   const maxHeight = window.innerHeight;
-  const lettersPerColum = Math.round(maxHeight / 24);
+  const lettersAmount = Math.round(maxHeight / LETTER_HEIGHT);
 
-  const letters = createRandomArray(lettersPerColum);
+  const letters = createRandomArray(lettersAmount);
 
-  const animationFunction = `steps(${Math.floor(
-    Math.random() * lettersPerColum + 10
-  )}, end)`;
+  const animationFunction = `steps(${lettersAmount}, jump-none)`;
 
-  const animationTime = `${Math.floor(Math.random() * 10)}s`;
+  const animationTime = `${Math.round(Math.random() * 10 + 1)}s`;
+
+  const animationClass = () => (running() ? "animate-down" : "");
 
   return (
-    <div
-      class="flex flex-col overflow-y-hidden bg-black animate-down"
+    <span
+      class={`overflow-hidden text-green-300 ${animationClass()}`}
       style={{
+        "writing-mode": "vertical-rl",
+        "text-orientation": "upright",
         "--down-animation-time": animationTime,
         "--down-animation-function": animationFunction,
       }}
     >
-      {letters.map((char) => (
-        <span class="text-green-300">{char}</span>
-      ))}
-    </div>
+      {letters.reduce((acc, char) => acc + char)}
+    </span>
   );
 }

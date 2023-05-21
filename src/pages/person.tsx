@@ -1,32 +1,22 @@
-import { createEffect, createSignal } from "solid-js";
-
-import { PageProps } from "../App";
-import image from "../assets/image.jpeg";
-import { createTypewriterText } from "../utils/create-typewriter-text";
 import { Link } from "@solidjs/router";
 
-export function Person({ isVisible, navigate }: PageProps) {
-  const [title, setTitle] = createSignal("");
+import { PageProps } from "../App";
+import { GithubLogo } from "../components/github-logo";
+import { Headline } from "../components/headline";
+import { Portrait } from "../components/potrait";
+import { useNavigate } from "../context/navigation";
 
-  createEffect(() => {
-    if (!isVisible()) {
-      return;
-    }
-
-    createTypewriterText("Luis Meyer", title, setTitle);
-  });
+export function Person({ isVisible }: PageProps) {
+  const navigate = useNavigate();
 
   return (
-    <div class="grid grid-cols-2 grid-rows-2 max-w-5xl gap-2 p-8">
-      <img
-        class="rounded-full w-96 h-96 object-cover row-span-2 "
-        src={image}
-        alt="Picture of Luis Meyer"
-      />
+    <div class="grid grid-cols-2 grid-rows-2 max-w-5xl p-8">
+      <Portrait />
 
       <div class="self-end">
         <span>Hi, i'm</span>
-        <h1 class="text-8xl font-bold">{title()}</h1>
+
+        {isVisible() && <Headline input="Luis Meyer" />}
       </div>
 
       <div class="flex gap-2 flex-col">
@@ -43,8 +33,9 @@ export function Person({ isVisible, navigate }: PageProps) {
           onClick={() => navigate("/github")}
           // doesn't actually do anything
           href="/github"
-          class="bg-purple-900 p-2 w-fit rounded text-white"
+          class="bg-main px-3 py-2 w-fit rounded text-white flex gap-2 items-center"
         >
+          <GithubLogo width="20" height="20" />
           Github
         </Link>
       </div>

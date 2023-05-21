@@ -6,6 +6,7 @@ import { Education } from "./pages/education";
 import { Github } from "./pages/github";
 import { Jobs } from "./pages/jobs";
 import { Person } from "./pages/person";
+import { NavigateContext } from "./context/navigation";
 
 interface Page {
   pathname: string;
@@ -14,11 +15,13 @@ interface Page {
 
 export interface PageProps {
   isVisible: () => boolean;
-  navigate: (pathname: string) => void;
 }
 
 // the scroll delta that needs to be exceeded before triggering a page update
 const SCROLL_THRESHHOLD = 50;
+
+// the time in milliseconds it takes to scroll to the next page
+const SCROLL_TIME = 500;
 
 export const App: Component = () => {
   const PAGES: Page[] = [
@@ -29,6 +32,9 @@ export const App: Component = () => {
     { pathname: "/github", Component: Github },
   ];
 
+  let scrollingUp = false;
+  let scrollingDown = false;
+
   const [scrolling, setScrolling] = createSignal(false);
   const [page, setPage] = createSignal(0);
 
@@ -38,12 +44,10 @@ export const App: Component = () => {
   const location = useLocation();
 
   // scroll to new page and update the location accordingly
-  function navigateToPage(newPage: number) {
-    if (!app) {
+  function changePage(newPage: number) {
+    if (!app || page() === newPage) {
       return;
     }
-
-    app.scrollTo({ top: newPage * window.innerHeight, behavior: "smooth" });
 
     const data = PAGES[newPage];
 
@@ -53,62 +57,64 @@ export const App: Component = () => {
       navigate(pathname);
     }
 
+    setScrolling(true);
+
+    if (newPage > page()) {
+      scrollingDown = true;
+    }
+
+    if (newPage < page()) {
+      scrollingUp = true;
+    }
+
     setPage(newPage);
   }
 
-  // unblock the scroll method after timeout which clears after
-  // the last wheel event was fired if only doing on scroll
-  function clearScrolling() {
-    setTimeout(() => setScrolling(false), 1000);
-  }
-
-  // because the wheel event is fired more than once when scrolling
-  // the scrolling state blocks the scroll method, so we don't update
-  // the page too often.
-  function blockScrolling() {
-    setScrolling(true);
-  }
-
   function handleWheel(event: WheelEvent) {
+    // because the wheel event is fired more than once when scrolling
+    // the scrolling state blocks the wheelhandler, so we don't update
+    // the page too often.
     if (!app || scrolling()) {
       return;
     }
 
     // scroll down
     if (event.deltaY > SCROLL_THRESHHOLD && page() < PAGES.length - 1) {
-      blockScrolling();
-
-      navigateToPage(page() + 1);
-
-      clearScrolling();
+      changePage(page() + 1);
     }
 
     // scroll up
     if (event.deltaY < -SCROLL_THRESHHOLD && page() > 0) {
-      blockScrolling();
-
-      navigateToPage(page() - 1);
-
-      clearScrolling();
+      changePage(page() - 1);
     }
   }
 
   function handleKey(event: KeyboardEvent) {
+    // scroll down
     if (event.key === "ArrowDown" && page() < PAGES.length - 1) {
-      navigateToPage(page() + 1);
+      changePage(page() + 1);
     }
 
+    // scroll up
     if (event.key === "ArrowUp" && page() > 0) {
-      navigateToPage(page() - 1);
+      changePage(page() - 1);
     }
   }
 
-  function changePage(pathname: string) {
+  function navigateToPage(pathname: string) {
     const pageIndex = PAGES.findIndex((page) => page.pathname === pathname);
 
-    if (pageIndex !== page()) {
-      navigateToPage(pageIndex);
+    if (pageIndex > -1 && pageIndex !== page()) {
+      changePage(pageIndex);
     }
+  }
+
+  // clear all scrolling states and vars
+  function clearScrolling() {
+    setScrolling(false);
+
+    scrollingUp = false;
+    scrollingDown = false;
   }
 
   onMount(() => {
@@ -117,10 +123,16 @@ export const App: Component = () => {
     }
 
     app.addEventListener("wheel", handleWheel, { passive: true });
+    app.addEventListener("transitionend", clearScrolling);
 
     document.addEventListener("keydown", handleKey);
 
-    changePage(location.pathname);
+    navigateToPage(location.pathname);
+
+    // clear scrolling here because on first mount the page is
+    // not scrolled into view and the 'transitionend' handler
+    // is not taking care of the clean up
+    clearScrolling();
   });
 
   onCleanup(() => {
@@ -129,17 +141,44 @@ export const App: Component = () => {
     }
 
     app.removeEventListener("wheel", handleWheel);
+    app.removeEventListener("transitionend", clearScrolling);
 
     document.removeEventListener("keydown", handleKey);
   });
 
+  function isVisible(index: number) {
+    return function () {
+      if (scrolling() && scrollingUp) {
+        // while scrolling up the next page should be still visible
+        return index === page() || index === page() + 1;
+      }
+
+      if (scrolling() && scrollingDown) {
+        // while scrolling down the previous page should be still visible
+        return index === page() || index === page() - 1;
+      }
+
+      return index === page();
+    };
+  }
+
   return (
-    <div class="h-screen overflow-hidden" ref={app}>
-      {PAGES.map(({ Component }, index) => (
-        <div class="w-screen h-screen flex items-center justify-center">
-          <Component isVisible={() => page() === index} navigate={changePage} />
-        </div>
-      ))}
-    </div>
+    <NavigateContext.Provider value={navigateToPage}>
+      <div
+        class={`overflow-hidden absolute`}
+        ref={app}
+        style={{
+          "transition-property": "top",
+          "transition-duration": `${SCROLL_TIME}ms`,
+          top: `-${window.innerHeight * page()}px`,
+        }}
+      >
+        {PAGES.map(({ Component }, index) => (
+          <div class="w-screen h-screen flex items-center justify-center">
+            <Component isVisible={isVisible(index)} />
+          </div>
+        ))}
+      </div>
+    </NavigateContext.Provider>
   );
 };
