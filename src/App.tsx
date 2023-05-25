@@ -8,6 +8,7 @@ import { Github } from "./pages/github";
 import { Internships } from "./pages/internships";
 import { Jobs } from "./pages/jobs";
 import { Person } from "./pages/person";
+import { createResponsiveSignal } from "./utils/create-responsive-signal";
 
 interface Page {
   pathname: string;
@@ -19,7 +20,10 @@ export interface PageProps {
 }
 
 // the scroll delta that needs to be exceeded before triggering a page update
-const SCROLL_THRESHHOLD = 50;
+const WHEEL_THRESHHOLD = 50;
+
+// the touch move delta that needs to be exceeded before triggering a page update
+const TOUCH_THRESHHOLD = 5;
 
 // the time in milliseconds it takes to scroll to the next page
 const SCROLL_TIME = 500;
@@ -92,12 +96,12 @@ export function App() {
     }
 
     // scroll down
-    if (event.deltaY > SCROLL_THRESHHOLD) {
+    if (event.deltaY > WHEEL_THRESHHOLD) {
       changePage(page() + 1);
     }
 
     // scroll up
-    if (event.deltaY < -SCROLL_THRESHHOLD) {
+    if (event.deltaY < -WHEEL_THRESHHOLD) {
       changePage(page() - 1);
     }
   }
@@ -134,9 +138,10 @@ export function App() {
     const xDiff = xDown - xUp;
     const yDiff = yDown - yUp;
 
-    const threshhold = 10;
-
-    if (Math.abs(yDiff) > Math.abs(xDiff) && Math.abs(yDiff) > threshhold) {
+    if (
+      Math.abs(yDiff) > Math.abs(xDiff) &&
+      Math.abs(yDiff) > TOUCH_THRESHHOLD
+    ) {
       if (yDiff > 0) {
         // scroll down
         changePage(page() + 1);
@@ -179,8 +184,8 @@ export function App() {
     app.addEventListener("wheel", handleWheel, { passive: true });
     app.addEventListener("transitionend", clearScrolling);
 
-    app.addEventListener("touchstart", handleTouchStart, false);
-    app.addEventListener("touchmove", handleTouchMove, false);
+    app.addEventListener("touchstart", handleTouchStart, { passive: true });
+    app.addEventListener("touchmove", handleTouchMove, { passive: true });
 
     document.addEventListener("keydown", handleKey);
 
@@ -199,6 +204,9 @@ export function App() {
 
     app.removeEventListener("wheel", handleWheel);
     app.removeEventListener("transitionend", clearScrolling);
+
+    app.removeEventListener("touchstart", handleTouchStart);
+    app.removeEventListener("touchmove", handleTouchMove);
 
     document.removeEventListener("keydown", handleKey);
   });
@@ -219,6 +227,8 @@ export function App() {
     };
   }
 
+  const innerHeight = createResponsiveSignal(() => window.innerHeight);
+
   return (
     <NavigateContext.Provider value={navigateToPage}>
       <div
@@ -227,7 +237,7 @@ export function App() {
         style={{
           "transition-property": "top",
           "transition-duration": `${SCROLL_TIME}ms`,
-          top: `-${window.innerHeight * page()}px`,
+          top: `-${innerHeight() * page()}px`,
         }}
       >
         {PAGES.map(({ Component }, index) => (

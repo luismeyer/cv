@@ -1,7 +1,10 @@
+import { createEffect } from "solid-js";
+
 import { PageProps } from "../App";
 import { GithubLogo } from "../components/github-logo";
 import { LetterColumn } from "../components/letter-column";
 import { createResponsiveSignal } from "../utils/create-responsive-signal";
+import { getThemeTag } from "../utils/get-theme-tag";
 
 const COLUMN_WIDTH = 23;
 
@@ -9,6 +12,17 @@ export function Github({ isVisible }: PageProps) {
   const columnAmount = createResponsiveSignal(() =>
     Math.round(window.innerWidth / COLUMN_WIDTH)
   );
+
+  createEffect(() => {
+    const themeTag = getThemeTag();
+
+    if (!isVisible()) {
+      themeTag.setAttribute("content", "#ffffff");
+      return;
+    }
+
+    themeTag.setAttribute("content", "#000000");
+  });
 
   return (
     <div class="w-full h-full flex relative bg-black">

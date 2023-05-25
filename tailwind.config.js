@@ -8,6 +8,12 @@ module.exports = {
       sans: ["Proxima Nova", ...defaultTheme.fontFamily.sans],
     },
     extend: {
+      height: {
+        screen: "100svh",
+      },
+      width: {
+        screen: "100svw",
+      },
       transitionDuration: {
         2000: "2000ms",
       },
