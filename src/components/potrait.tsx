@@ -10,17 +10,17 @@ const STYLES = [
   { borderRadius: "10px", transform: "" },
 ];
 
+const ANIMATION_INTERVAL = 3000;
+
 export function Portrait() {
   const [state, setState] = createSignal(0);
 
   let interval: number | undefined;
 
   function startFading() {
-    interval = setInterval(function () {
-      const newState = (state() + 1) % STYLES.length;
-
-      setState(newState);
-    }, 5000);
+    interval = window.setInterval(function () {
+      setState((prev) => (prev + 1) % STYLES.length);
+    }, ANIMATION_INTERVAL);
   }
 
   function stopFading() {
