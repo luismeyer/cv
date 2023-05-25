@@ -53,7 +53,7 @@ export function Portrait() {
 
   return (
     <div
-      class="relative row-span-2 justify-self-center w-96 h-96"
+      class="relative row-span-2 justify-self-center self-center w-48 h-48 md:w-80 md:h-80 md:col-span-1 col-span-2"
       onMouseLeave={startFading}
       onMouseOver={stopFading}
     >

@@ -20,11 +20,15 @@ export function Github({ isVisible }: PageProps) {
 
       <a
         href="https://github.com/luismeyer"
-        class="flex items-center gap-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        class="flex items-center gap-2 md:gap-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
       >
-        <GithubLogo />
+        <div class="w-12 h-12 md:w-32 md:h-32">
+          <GithubLogo />
+        </div>
 
-        <span class="text-9xl text-white font-bold">/luismeyer</span>
+        <span class="text-4xl md:text-8xl text-white font-bold">
+          /luismeyer
+        </span>
       </a>
     </div>
   );

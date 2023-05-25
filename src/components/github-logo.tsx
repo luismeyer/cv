@@ -1,14 +1,7 @@
-interface GithubLogoProps {
-  width?: string;
-  height?: string;
-}
-
-export function GithubLogo({ width, height }: GithubLogoProps) {
+export function GithubLogo() {
   return (
     <svg
-      class="fill-white transition-all"
-      height={width ?? "128"}
-      width={height ?? "128"}
+      class="fill-white transition-all h-full w-full"
       aria-hidden="true"
       viewBox="0 0 16 16"
       version="1.1"

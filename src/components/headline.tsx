@@ -41,5 +41,5 @@ export function Headline({ input }: HeadlineProps) {
     }, 100);
   });
 
-  return <h1 class="text-8xl font-bold mb-16">{text()}</h1>;
+  return <h1 class="text-6xl md:text-7xl font-bold mb-5 md:mb-10">{text()}</h1>;
 }

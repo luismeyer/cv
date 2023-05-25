@@ -61,10 +61,22 @@ export function App() {
     setScrolling(true);
 
     if (newPage > page()) {
+      // don't scroll if on last page
+      if (page() >= PAGES.length - 1) {
+        setScrolling(false);
+        return;
+      }
+
       scrollingDown = true;
     }
 
     if (newPage < page()) {
+      // don't scroll if on first page
+      if (page() <= 0) {
+        setScrolling(false);
+        return;
+      }
+
       scrollingUp = true;
     }
 
@@ -80,26 +92,75 @@ export function App() {
     }
 
     // scroll down
-    if (event.deltaY > SCROLL_THRESHHOLD && page() < PAGES.length - 1) {
+    if (event.deltaY > SCROLL_THRESHHOLD) {
       changePage(page() + 1);
     }
 
     // scroll up
-    if (event.deltaY < -SCROLL_THRESHHOLD && page() > 0) {
+    if (event.deltaY < -SCROLL_THRESHHOLD) {
       changePage(page() - 1);
     }
   }
 
   function handleKey(event: KeyboardEvent) {
     // scroll down
-    if (event.key === "ArrowDown" && page() < PAGES.length - 1) {
+    if (event.key === "ArrowDown") {
       changePage(page() + 1);
     }
 
     // scroll up
-    if (event.key === "ArrowUp" && page() > 0) {
+    if (event.key === "ArrowUp") {
       changePage(page() - 1);
     }
+  }
+
+  let xDown: number | undefined;
+  let yDown: number | undefined;
+
+  function handleTouchStart(evt: TouchEvent) {
+    const [firstTouch] = evt.touches;
+    xDown = firstTouch.clientX;
+    yDown = firstTouch.clientY;
+  }
+
+  function handleTouchMove(evt: TouchEvent) {
+    if (!xDown || !yDown) {
+      return;
+    }
+
+    const xUp = evt.touches[0].clientX;
+    const yUp = evt.touches[0].clientY;
+
+    const xDiff = xDown - xUp;
+    const yDiff = yDown - yUp;
+
+    const threshhold = 10;
+
+    if (Math.abs(yDiff) > Math.abs(xDiff) && Math.abs(yDiff) > threshhold) {
+      if (yDiff > 0) {
+        // scroll down
+        changePage(page() + 1);
+      } else {
+        // scroll up
+        changePage(page() - 1);
+      }
+    }
+
+    /* reset values */
+    xDown = undefined;
+    yDown = undefined;
+  }
+
+  // clear all scrolling states and vars
+  function clearScrolling() {
+    if (!scrolling()) {
+      return;
+    }
+
+    setScrolling(false);
+
+    scrollingUp = false;
+    scrollingDown = false;
   }
 
   function navigateToPage(pathname: string) {
@@ -110,14 +171,6 @@ export function App() {
     }
   }
 
-  // clear all scrolling states and vars
-  function clearScrolling() {
-    setScrolling(false);
-
-    scrollingUp = false;
-    scrollingDown = false;
-  }
-
   onMount(function () {
     if (!app) {
       return;
@@ -125,6 +178,9 @@ export function App() {
 
     app.addEventListener("wheel", handleWheel, { passive: true });
     app.addEventListener("transitionend", clearScrolling);
+
+    app.addEventListener("touchstart", handleTouchStart, false);
+    app.addEventListener("touchmove", handleTouchMove, false);
 
     document.addEventListener("keydown", handleKey);
 
@@ -166,7 +222,7 @@ export function App() {
   return (
     <NavigateContext.Provider value={navigateToPage}>
       <div
-        class={`overflow-hidden absolute`}
+        class="overflow-hidden absolute"
         ref={app}
         style={{
           "transition-property": "top",

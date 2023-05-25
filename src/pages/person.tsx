@@ -17,13 +17,13 @@ export function Person({ isVisible }: PageProps) {
     <div class="grid grid-cols-2 grid-rows-2 max-w-5xl p-8">
       <Portrait />
 
-      <div class="self-end">
+      <div class="col-span-2 md:col-span-1 self-end mt-2 md:mt-0">
         <span>Hi, i'm</span>
 
         {isVisible() && <Headline input="Luis Meyer" />}
       </div>
 
-      <div class="flex gap-2 flex-col">
+      <div class="flex gap-2 flex-col col-span-2 md:col-span-1">
         <p>
           I'm a motivated <b>Product Engineer</b> that is passionate for Full
           Stack Development, Serverless Computing, building high quality
@@ -39,8 +39,11 @@ export function Person({ isVisible }: PageProps) {
           href="/github"
           class="bg-main px-3 py-2 w-fit rounded text-white flex gap-2 items-center"
         >
-          <GithubLogo width="20" height="20" />
-          Github
+          <div class="w-6 h-6">
+            <GithubLogo />
+          </div>
+
+          <span>Github</span>
         </Link>
       </div>
     </div>
