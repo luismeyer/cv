@@ -40,8 +40,8 @@ export function Github({ isVisible }: PageProps) {
           <GithubLogo />
         </div>
 
-        <span class="text-4xl md:text-8xl text-white font-bold">
-          /luismeyer
+        <span class="text-4xl md:text-8xl text-white font-bold underline">
+          luismeyer
         </span>
       </a>
     </div>
