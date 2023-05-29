@@ -25,9 +25,14 @@ module.exports = {
           "0%": { height: 0 },
           "100%": { height: "100%" },
         },
+        slideFromLeft: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(0px)" },
+        },
       },
       animation: {
         down: "revealDown var(--down-animation-time) var(--down-animation-function)",
+        slide: "slideFromLeft 0.5s ease forwards",
       },
     },
   },

@@ -23,7 +23,7 @@ export interface PageProps {
 const WHEEL_THRESHHOLD = 50;
 
 // the touch move delta that needs to be exceeded before triggering a page update
-const TOUCH_THRESHHOLD = 5;
+const TOUCH_THRESHHOLD = 10;
 
 // the time in milliseconds it takes to scroll to the next page
 const SCROLL_TIME = 500;

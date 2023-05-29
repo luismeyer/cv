@@ -1,4 +1,5 @@
 import { Headline } from "./headline";
+import { InfoContent } from "./info-content";
 
 export interface InfoItem {
   title: string;
@@ -19,17 +20,18 @@ export function InfoPage({ title, items, isVisible }: InfoPageProps) {
       {isVisible() && <Headline input={title} />}
 
       <div class="flex flex-col gap-4 md:gap-8">
-        {items.map((job) => (
-          <div class="border-l-2 pl-2">
-            <h2 class="text-xl md:text-2xl">{job.title}</h2>
+        {isVisible() &&
+          items.map((job, index) => (
+            <InfoContent index={index}>
+              <h2 class="text-xl md:text-2xl">{job.title}</h2>
 
-            <span class="text-gray-500">
-              {job.start} - {job.end}
-            </span>
+              <span class="text-gray-500">
+                {job.start} - {job.end}
+              </span>
 
-            <p class="text-sm md:text-lg">{job.description}</p>
-          </div>
-        ))}
+              <p class="text-sm md:text-lg">{job.description}</p>
+            </InfoContent>
+          ))}
       </div>
     </div>
   );

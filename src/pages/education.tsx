@@ -4,7 +4,7 @@ import { InfoItem, InfoPage } from "../components/info-page";
 const DATA: InfoItem[] = [
   {
     title: "NORDAKADEMIE Hochschule der Wirtschaft, Elmshorn",
-    description: "Bachelor of Science",
+    description: "Applied Computer Science ➡️ Bachelor of Science",
     start: "October 2018",
     end: "March 2022",
   },
