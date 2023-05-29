@@ -1,4 +1,5 @@
 import { createSignal, onMount } from "solid-js";
+import { headlines } from "../stores/headlines";
 
 interface HeadlineProps {
   input: string;
@@ -19,6 +20,12 @@ export function Headline({ input }: HeadlineProps) {
   let interval: number | undefined;
 
   onMount(function () {
+    // don't animate if the headline already was shown before
+    if (headlines.exists(input)) {
+      setText(input);
+      return;
+    }
+
     interval = window.setInterval(async () => {
       const random = Math.floor(Math.random() * 10);
       if (random === 0) {
@@ -27,6 +34,8 @@ export function Headline({ input }: HeadlineProps) {
 
       if (pointerIndex > input.length) {
         clearInterval(interval);
+
+        headlines.add(input);
 
         return;
       }
