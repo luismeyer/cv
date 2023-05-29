@@ -5,6 +5,7 @@ import { GithubLogo } from "../components/github-logo";
 import { Headline } from "../components/headline";
 import { Portrait } from "../components/potrait";
 import { useNavigate } from "../context/navigation";
+import { LinkedInLogo } from "../components/linkedin-logo";
 
 export function Person({ isVisible }: PageProps) {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ export function Person({ isVisible }: PageProps) {
         {isVisible() && <Headline input="Luis Meyer" />}
       </div>
 
-      <div class="flex gap-2 flex-col col-span-2 md:col-span-1">
+      <div class="flex gap-4 flex-col col-span-2 md:col-span-1">
         <p>
           I'm a motivated <b>Product Engineer</b> that is passionate for Full
           Stack Development, Serverless Computing, building high quality
@@ -32,19 +33,32 @@ export function Person({ isVisible }: PageProps) {
           learning new things everyday.
         </p>
 
-        <Link
-          // updates the state of the app
-          onClick={openGithub}
-          // doesn't actually do anything
-          href="/github"
-          class="bg-main px-3 py-2 w-fit rounded text-white flex gap-2 items-center"
-        >
-          <div class="w-6 h-6">
-            <GithubLogo />
-          </div>
+        <div class="flex gap-8">
+          <Link
+            // updates the state of the app
+            onClick={openGithub}
+            // doesn't actually do anything
+            href="/github"
+            class="bg-main px-3 py-2 w-fit rounded text-white flex gap-2 items-center"
+          >
+            <div class="w-6 h-6">
+              <GithubLogo />
+            </div>
 
-          <span>Github</span>
-        </Link>
+            <span>Github</span>
+          </Link>
+
+          <Link
+            href="https://www.linkedin.com/in/luis-meyer-030227232/"
+            class="bg-main px-3 py-2 w-fit rounded text-white flex gap-2 items-center"
+          >
+            <div class="w-6 h-6">
+              <LinkedInLogo />
+            </div>
+
+            <span>LinkedIn</span>
+          </Link>
+        </div>
       </div>
     </div>
   );
