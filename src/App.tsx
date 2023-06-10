@@ -9,6 +9,7 @@ import { Internships } from "./pages/internships";
 import { Jobs } from "./pages/jobs";
 import { Person } from "./pages/person";
 import { createResponsiveSignal } from "./utils/create-responsive-signal";
+import { Skills } from "./pages/skills";
 
 interface Page {
   pathname: string;
@@ -34,6 +35,7 @@ export function App() {
     { pathname: "/jobs", Component: Jobs },
     { pathname: "/education", Component: Education },
     { pathname: "/hobbies", Component: Internships },
+    { pathname: "/skills", Component: Skills },
     { pathname: "/github", Component: Github },
   ];
 
