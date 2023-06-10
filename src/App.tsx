@@ -1,4 +1,4 @@
-import { createSignal, JSX, onCleanup, onMount } from "solid-js";
+import { createSignal, For, JSX, onCleanup, onMount } from "solid-js";
 
 import { useLocation, useNavigate } from "@solidjs/router";
 
@@ -211,22 +211,6 @@ export function App() {
     document.removeEventListener("keydown", handleKey);
   });
 
-  function isVisible(index: number) {
-    return function () {
-      if (scrolling() && scrollingUp) {
-        // while scrolling up the next page should be still visible
-        return index === page() || index === page() + 1;
-      }
-
-      if (scrolling() && scrollingDown) {
-        // while scrolling down the previous page should be still visible
-        return index === page() || index === page() - 1;
-      }
-
-      return index === page();
-    };
-  }
-
   const innerHeight = createResponsiveSignal(() => window.innerHeight);
 
   return (
@@ -240,11 +224,27 @@ export function App() {
           top: `-${innerHeight() * page()}px`,
         }}
       >
-        {PAGES.map(({ Component }, index) => (
-          <div class="w-screen h-screen flex items-center justify-center">
-            <Component isVisible={isVisible(index)} />
-          </div>
-        ))}
+        <For each={PAGES}>
+          {({ Component }, index) => (
+            <div class="w-screen h-screen flex items-center justify-center">
+              <Component
+                isVisible={function () {
+                  if (scrolling() && scrollingUp) {
+                    // while scrolling up the next page should be still visible
+                    return index() === page() || index() === page() + 1;
+                  }
+
+                  if (scrolling() && scrollingDown) {
+                    // while scrolling down the previous page should be still visible
+                    return index() === page() || index() === page() - 1;
+                  }
+
+                  return index() === page();
+                }}
+              />
+            </div>
+          )}
+        </For>
       </div>
     </NavigateContext.Provider>
   );

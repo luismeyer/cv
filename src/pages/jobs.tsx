@@ -18,6 +18,6 @@ const DATA: InfoItem[] = [
   },
 ];
 
-export function Jobs({ isVisible }: PageProps) {
-  return <InfoPage isVisible={isVisible} items={DATA} title="Experience" />;
+export function Jobs(props: PageProps) {
+  return <InfoPage isVisible={props.isVisible} items={DATA} title="Experience" />;
 }

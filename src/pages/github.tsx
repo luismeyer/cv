@@ -1,4 +1,4 @@
-import { createEffect } from "solid-js";
+import { For, createEffect } from "solid-js";
 
 import { PageProps } from "../App";
 import { GithubLogo } from "../components/github-logo";
@@ -8,7 +8,7 @@ import { getThemeTag } from "../utils/get-theme-tag";
 
 const COLUMN_WIDTH = 23;
 
-export function Github({ isVisible }: PageProps) {
+export function Github(props: PageProps) {
   const columnAmount = createResponsiveSignal(() =>
     Math.round(window.innerWidth / COLUMN_WIDTH)
   );
@@ -16,7 +16,7 @@ export function Github({ isVisible }: PageProps) {
   createEffect(() => {
     const themeTag = getThemeTag();
 
-    if (!isVisible()) {
+    if (!props.isVisible()) {
       themeTag.setAttribute("content", "#ffffff");
       return;
     }
@@ -26,11 +26,12 @@ export function Github({ isVisible }: PageProps) {
 
   return (
     <div class="w-full h-full flex relative bg-black">
-      {Array(columnAmount())
-        .fill(0)
-        .map(() => (
-          <LetterColumn running={isVisible} />
-        ))}
+      <For
+        each={Array(columnAmount()).fill(0)}
+        fallback={<div>Loading...</div>}
+      >
+        {() => <LetterColumn running={props.isVisible} />}
+      </For>
 
       <a
         href="https://github.com/luismeyer"

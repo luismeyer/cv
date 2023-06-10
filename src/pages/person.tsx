@@ -7,7 +7,7 @@ import { Portrait } from "../components/potrait";
 import { useNavigate } from "../context/navigation";
 import { LinkedInLogo } from "../components/linkedin-logo";
 
-export function Person({ isVisible }: PageProps) {
+export function Person(props: PageProps) {
   const navigate = useNavigate();
 
   function openGithub() {
@@ -21,7 +21,7 @@ export function Person({ isVisible }: PageProps) {
       <div class="col-span-2 md:col-span-1 self-end mt-2 md:mt-0">
         <span>Hi, i'm</span>
 
-        {isVisible() && <Headline input="Luis Meyer" />}
+        {props.isVisible() && <Headline initialText="Luis Meyer" />}
       </div>
 
       <div class="flex gap-4 flex-col col-span-2 md:col-span-1">

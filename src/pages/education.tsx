@@ -16,6 +16,6 @@ const DATA: InfoItem[] = [
   },
 ];
 
-export function Education({ isVisible }: PageProps) {
-  return <InfoPage isVisible={isVisible} items={DATA} title="Education" />;
+export function Education(props: PageProps) {
+  return <InfoPage isVisible={props.isVisible} items={DATA} title="Education" />;
 }

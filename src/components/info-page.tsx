@@ -14,14 +14,14 @@ interface InfoPageProps {
   isVisible: () => boolean;
 }
 
-export function InfoPage({ title, items, isVisible }: InfoPageProps) {
+export function InfoPage(props: InfoPageProps) {
   return (
     <div class="max-w-2xl p-8">
-      {isVisible() && <Headline input={title} />}
+      {props.isVisible() && <Headline initialText={props.title} />}
 
       <div class="flex flex-col gap-4 md:gap-8">
-        {isVisible() &&
-          items.map((job, index) => (
+        {props.isVisible() &&
+          props.items.map((job, index) => (
             <InfoContent index={index}>
               <h2 class="text-xl md:text-2xl">{job.title}</h2>
 

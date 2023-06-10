@@ -2,10 +2,12 @@ import { createSignal, onMount } from "solid-js";
 import { headlines } from "../stores/headlines";
 
 interface HeadlineProps {
-  input: string;
+  initialText: string;
 }
 
-export function Headline({ input }: HeadlineProps) {
+export function Headline(props: HeadlineProps) {
+  const input = props.initialText;
+
   function transformToEmptyText(text: string) {
     return text
       .split("")
@@ -26,7 +28,7 @@ export function Headline({ input }: HeadlineProps) {
       return;
     }
 
-    interval = window.setInterval(async () => {
+    interval = setInterval(async function () {
       const random = Math.floor(Math.random() * 10);
       if (random === 0) {
         return;
