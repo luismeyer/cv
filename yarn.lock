@@ -307,6 +307,11 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
+"@cicadahq/cicada@^0.1.50":
+  version "0.1.50"
+  resolved "https://registry.yarnpkg.com/@cicadahq/cicada/-/cicada-0.1.50.tgz#4501a8e15a1c42003531910352efd4aedd6c53f4"
+  integrity sha512-qNf+nui6EQDVNR+Rucr+8PgkwFX1Ts1rllcDxeMRS3481aagWMAy6I4Pryd7ULluJpBIq+m9uWmh9o4vlRC/nQ==
+
 "@esbuild/android-arm64@0.17.19":
   version "0.17.19"
   resolved "https://registry.yarnpkg.com/@esbuild/android-arm64/-/android-arm64-0.17.19.tgz#bafb75234a5d3d1b690e7c2956a599345e84a2fd"
