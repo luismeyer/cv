@@ -14,9 +14,6 @@ export default {
       width: {
         screen: "100svw",
       },
-      transitionDuration: {
-        2000: "2000ms",
-      },
       colors: {
         main: "#02d4d0",
       },
@@ -29,10 +26,15 @@ export default {
           "0%": { transform: "translateX(-100%)" },
           "100%": { transform: "translateX(0px)" },
         },
+        star: {
+          "0%": { transform: "scale(0)", opacity: 0 },
+          "100%": { transform: "scale(1)", opacity: 1 },
+        },
       },
       animation: {
         down: "revealDown var(--down-animation-time) var(--down-animation-function)",
         slide: "slideFromLeft 0.5s ease forwards",
+        star: "star 0.5s ease forwards var(--star-animation-delay)",
       },
     },
   },
