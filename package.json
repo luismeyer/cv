@@ -6,6 +6,9 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
+    "cicada:local": "cicada run",
+    "compile": "tsc --build",
+    "compile:watch": "tsc --build --watch",
     "dev": "vite",
     "lint": "eslint ./ --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "yarn lint --fix",

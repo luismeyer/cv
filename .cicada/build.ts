@@ -15,7 +15,20 @@ const BuildJob = new Job({
   ],
 });
 
-export default new Pipeline([InstallJob, BuildJob], {
+const CompileJob = new Job({
+  name: "Install",
+  image: "node",
+  dependsOn: [InstallJob],
+  steps: [
+    {
+      name: "Run Compile",
+      run: "yarn compile",
+      cacheDirectories: ["node_modules"],
+    },
+  ],
+});
+
+export default new Pipeline([InstallJob, BuildJob, CompileJob], {
   name: "Build",
   on: {
     pullRequest: ["main"],

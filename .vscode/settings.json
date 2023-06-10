@@ -1,3 +1,14 @@
 {
-  "deno.enablePaths": [".cicada"]
+  "deno.enablePaths": [".cicada"],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/lib": true,
+    "**/package-lock.json": true
+  },
+  "editor.codeActionsOnSave": {
+    "source.addMissingImports": true,
+    "source.fixAll.eslint": true
+  }
 }
