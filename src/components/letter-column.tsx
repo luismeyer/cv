@@ -6,7 +6,7 @@ interface LetterColumnProps {
 
 const LETTER_HEIGHT = 19;
 
-export function LetterColumn({ running }: LetterColumnProps) {
+export function LetterColumn(props: LetterColumnProps) {
   const maxHeight = window.innerHeight;
   const lettersAmount = Math.round(maxHeight / LETTER_HEIGHT);
 
@@ -17,7 +17,7 @@ export function LetterColumn({ running }: LetterColumnProps) {
   const animationTime = `${Math.round(Math.random() * 10 + 1)}s`;
 
   function animationClass() {
-    return running() ? "animate-down" : "";
+    return props.running() ? "animate-down" : "";
   }
 
   return (

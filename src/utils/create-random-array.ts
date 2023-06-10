@@ -5,7 +5,7 @@ function randomNumChar() {
 export function createRandomArray(length: number) {
   let result: string[] = [];
 
-  for (var i = 0; i < length; i++) {
+  for (let i = 0; i < length; i++) {
     result = [...result, randomNumChar()];
   }
 
