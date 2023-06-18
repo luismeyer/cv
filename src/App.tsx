@@ -33,9 +33,9 @@ export function App() {
   const PAGES: Page[] = [
     { pathname: "/personal", Component: Person },
     { pathname: "/jobs", Component: Jobs },
+    { pathname: "/skills", Component: Skills },
     { pathname: "/education", Component: Education },
     { pathname: "/hobbies", Component: Internships },
-    { pathname: "/skills", Component: Skills },
     { pathname: "/github", Component: Github },
   ];
 
@@ -228,7 +228,7 @@ export function App() {
       >
         <For each={PAGES}>
           {({ Component }, index) => (
-            <div class="w-screen h-screen flex items-center justify-center">
+            <div class="w-screen h-screen flex items-center justify-center relative">
               <Component
                 isVisible={function () {
                   if (scrolling() && scrollingUp) {
