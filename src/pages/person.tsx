@@ -1,19 +1,13 @@
+import { Show } from "solid-js";
 import { Link } from "@solidjs/router";
 
-import { PageProps } from "../App";
 import { GithubLogo } from "../components/github-logo";
 import { Headline } from "../components/headline";
 import { Portrait } from "../components/potrait";
-import { useNavigate } from "../context/navigation";
 import { LinkedInLogo } from "../components/linkedin-logo";
+import { PageProps } from "../routes/[page]";
 
 export function Person(props: PageProps) {
-  const navigate = useNavigate();
-
-  function openGithub() {
-    navigate("/github");
-  }
-
   return (
     <div class="grid grid-cols-2 grid-rows-2 max-w-5xl p-8">
       <Portrait />
@@ -21,7 +15,9 @@ export function Person(props: PageProps) {
       <div class="col-span-2 md:col-span-1 self-end mt-2 md:mt-0">
         <span>Hi, i'm</span>
 
-        {props.isVisible() && <Headline initialText="Luis Meyer" />}
+        <Show when={props.isVisible()}>
+          <Headline initialText="Luis Meyer" />
+        </Show>
       </div>
 
       <div class="flex gap-4 flex-col col-span-2 md:col-span-1">
@@ -35,9 +31,6 @@ export function Person(props: PageProps) {
 
         <div class="flex gap-8">
           <Link
-            // updates the state of the app
-            onClick={openGithub}
-            // doesn't actually do anything
             href="/github"
             class="bg-main px-3 py-2 w-fit rounded text-white flex gap-2 items-center"
           >

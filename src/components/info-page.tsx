@@ -1,3 +1,4 @@
+import { Show, For } from "solid-js";
 import { Headline } from "./headline";
 import { InfoContent } from "./info-content";
 
@@ -17,22 +18,27 @@ interface InfoPageProps {
 export function InfoPage(props: InfoPageProps) {
   return (
     <div class="max-w-2xl p-8">
-      {props.isVisible() && <Headline initialText={props.title} />}
+      <Show when={props.isVisible()}>
+        <Headline initialText={props.title} />
+      </Show>
 
-      <div class="flex flex-col gap-4 md:gap-8">
-        {props.isVisible() &&
-          props.items.map((job, index) => (
-            <InfoContent index={index}>
-              <h2 class="text-xl md:text-2xl">{job.title}</h2>
+      <Show when={props.isVisible()}>
+        <div class="flex flex-col gap-4 md:gap-8">
+          <For each={props.items}>
+            {(job, index) => (
+              <InfoContent index={index()}>
+                <h2 class="text-xl md:text-2xl">{job.title}</h2>
 
-              <span class="text-gray-500">
-                {job.start} - {job.end}
-              </span>
+                <span class="text-gray-500">
+                  {job.start} - {job.end}
+                </span>
 
-              <p class="text-sm md:text-lg">{job.description}</p>
-            </InfoContent>
-          ))}
-      </div>
+                <p class="text-sm md:text-lg">{job.description}</p>
+              </InfoContent>
+            )}
+          </For>
+        </div>
+      </Show>
     </div>
   );
 }
