@@ -1,17 +1,28 @@
-import { For, createEffect } from "solid-js";
+import { For, createEffect, createSignal, onCleanup, onMount } from "solid-js";
 
-import { PageProps } from "../App";
 import { GithubLogo } from "../components/github-logo";
 import { LetterColumn } from "../components/letter-column";
-import { createResponsiveSignal } from "../utils/create-responsive-signal";
 import { getThemeTag } from "../utils/get-theme-tag";
+import { PageProps } from "../routes/[page]";
 
 const COLUMN_WIDTH = 23;
 
 export function Github(props: PageProps) {
-  const columnAmount = createResponsiveSignal(() =>
-    Math.round(window.innerWidth / COLUMN_WIDTH)
-  );
+  const [columnAmount, setColumnAmount] = createSignal<number[]>([]);
+
+  function updateSignal() {
+    setColumnAmount([...Array(Math.round(window.innerWidth / COLUMN_WIDTH))]);
+  }
+
+  onMount(function () {
+    updateSignal();
+
+    window.addEventListener("resize", updateSignal);
+  });
+
+  onCleanup(function () {
+    window.removeEventListener("resize", updateSignal);
+  });
 
   createEffect(() => {
     const themeTag = getThemeTag();
@@ -26,10 +37,7 @@ export function Github(props: PageProps) {
 
   return (
     <div class="w-full h-full flex relative bg-black">
-      <For
-        each={Array(columnAmount()).fill(0)}
-        fallback={<div>Loading...</div>}
-      >
+      <For each={columnAmount()}>
         {() => <LetterColumn running={props.isVisible} />}
       </For>
 

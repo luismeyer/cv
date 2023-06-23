@@ -1,8 +1,8 @@
-import { For } from "solid-js";
+import { For, Show } from "solid-js";
 
-import { PageProps } from "../App";
 import { Headline } from "../components/headline";
 import { Skill } from "../components/skill";
+import { PageProps } from "../routes/[page]";
 
 interface Skill {
   rating: number;
@@ -24,9 +24,11 @@ const LANGUAGES: Skill[] = [
 export function Skills(props: PageProps) {
   return (
     <div class="flex flex-col justify-center p-8">
-      <Headline initialText="Skills" />
+      <Show when={props.isVisible()}>
+        <Headline initialText="Skills" />
+      </Show>
 
-      {props.isVisible() && (
+      <Show when={props.isVisible()}>
         <div class="grid sm:grid-cols-2 gap-12">
           <div class="flex flex-col gap-1">
             <For each={SKILLS}>
@@ -40,7 +42,7 @@ export function Skills(props: PageProps) {
             </For>
           </div>
         </div>
-      )}
+      </Show>
     </div>
   );
 }

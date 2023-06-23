@@ -1,5 +1,5 @@
-import { PageProps } from "../App";
 import { InfoItem, InfoPage } from "../components/info-page";
+import { PageProps } from "../routes/[page]";
 
 const DATA: InfoItem[] = [
   {
@@ -17,5 +17,7 @@ const DATA: InfoItem[] = [
 ];
 
 export function Education(props: PageProps) {
-  return <InfoPage isVisible={props.isVisible} items={DATA} title="Education" />;
+  return (
+    <InfoPage isVisible={props.isVisible} items={DATA} title="Education" />
+  );
 }

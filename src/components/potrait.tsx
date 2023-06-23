@@ -18,7 +18,7 @@ export function Portrait() {
   let interval: number | undefined;
 
   function startFading() {
-    interval = window.setInterval(function () {
+    interval = setInterval(function () {
       setState((prev) => (prev + 1) % STYLES.length);
     }, ANIMATION_INTERVAL);
   }
@@ -42,7 +42,7 @@ export function Portrait() {
   }
 
   function style() {
-    const { borderRadius, transform } = STYLES[state()];
+    const { borderRadius, transform } = STYLES[state()] ?? {};
 
     return {
       transition: "all 1s ease",

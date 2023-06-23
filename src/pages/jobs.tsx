@@ -1,5 +1,5 @@
-import { PageProps } from "../App";
 import { InfoItem, InfoPage } from "../components/info-page";
+import { PageProps } from "../routes/[page]";
 
 const DATA: InfoItem[] = [
   {
@@ -19,5 +19,7 @@ const DATA: InfoItem[] = [
 ];
 
 export function Jobs(props: PageProps) {
-  return <InfoPage isVisible={props.isVisible} items={DATA} title="Experience" />;
+  return (
+    <InfoPage isVisible={props.isVisible} items={DATA} title="Experience" />
+  );
 }
