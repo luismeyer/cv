@@ -1,9 +1,5 @@
 import { createSignal, onCleanup, onMount } from "solid-js";
 
-import image1 from "../assets/image-1.jpeg";
-import image2 from "../assets/image-2.jpeg";
-import image3 from "../assets/image-3.jpg";
-
 const STYLES = [
   { borderRadius: "50%", transform: "" },
   { borderRadius: "50px", transform: "rotate(-2deg)" },
@@ -60,21 +56,21 @@ export function Portrait() {
       <img
         style={style()}
         class={`${imageClass} ${imageVisibleClass(0)}`}
-        src={image1}
+        src="/image-1.jpeg"
         alt="Picture of Luis Meyer"
       />
 
       <img
         style={style()}
         class={`${imageClass} ${imageVisibleClass(1)}`}
-        src={image2}
+        src="/image-2.jpeg"
         alt="Picture of Luis Meyer"
       />
 
       <img
         style={style()}
         class={`${imageClass} ${imageVisibleClass(2)}`}
-        src={image3}
+        src="/image-3.jpg"
         alt="Picture of Luis Meyer"
       />
     </div>
