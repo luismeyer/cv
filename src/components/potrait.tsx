@@ -1,13 +1,9 @@
 import { createSignal, onCleanup, onMount } from "solid-js";
 
-import image1 from "../assets/image-1.jpeg";
-import image2 from "../assets/image-2.jpeg";
-import image3 from "../assets/image-3.jpg";
-
 const STYLES = [
-  { borderRadius: "50%", transform: "" },
+  { borderRadius: "50%", transform: "0" },
   { borderRadius: "50px", transform: "rotate(-2deg)" },
-  { borderRadius: "10px", transform: "" },
+  { borderRadius: "10px", transform: "0" },
 ];
 
 const ANIMATION_INTERVAL = 3000;
@@ -35,7 +31,8 @@ export function Portrait() {
     stopFading();
   });
 
-  const imageClass = "w-full h-full object-cover absolute hover:cursor-none";
+  const picture = "absolute w-full h-full transition-all";
+  const img = "w-full h-full object-cover";
 
   function imageVisibleClass(num: number) {
     return state() === num ? "opacity-100" : "opacity-0";
@@ -53,30 +50,39 @@ export function Portrait() {
 
   return (
     <div
-      class="relative row-span-2 justify-self-center self-center w-48 h-48 md:w-80 md:h-80 md:col-span-1 col-span-2"
+      class="relative row-span-2 justify-self-center self-center w-48 h-48 md:w-80 md:h-80 md:col-span-1 col-span-2 hover:cursor-none"
       onMouseLeave={startFading}
       onMouseOver={stopFading}
     >
-      <img
-        style={style()}
-        class={`${imageClass} ${imageVisibleClass(0)}`}
-        src={image1}
-        alt="Picture of Luis Meyer"
-      />
+      <picture class={picture}>
+        <source srcset="images/large/1.webp" media="(min-width: 768px)" />
+        <img
+          style={style()}
+          class={`${img} ${imageVisibleClass(0)}`}
+          src="/images/small/1.webp"
+          alt="Picture of Luis Meyer"
+        />
+      </picture>
 
-      <img
-        style={style()}
-        class={`${imageClass} ${imageVisibleClass(1)}`}
-        src={image2}
-        alt="Picture of Luis Meyer"
-      />
+      <picture class={picture}>
+        <source srcset="images/large/2.webp" media="(min-width: 768px)" />
+        <img
+          style={style()}
+          class={`${img} ${imageVisibleClass(1)}`}
+          src="/images/small/2.webp"
+          alt="Picture of Luis Meyer"
+        />
+      </picture>
 
-      <img
-        style={style()}
-        class={`${imageClass} ${imageVisibleClass(2)}`}
-        src={image3}
-        alt="Picture of Luis Meyer"
-      />
+      <picture class={picture}>
+        <source srcset="images/large/3.webp" media="(min-width: 768px)" />
+        <img
+          style={style()}
+          class={`${img} ${imageVisibleClass(2)}`}
+          src="/images/small/3.webp"
+          alt="Picture of Luis Meyer"
+        />
+      </picture>
     </div>
   );
 }

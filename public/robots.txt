@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+User-agent: *
+Allow: /personal
+
+User-agent: *
+Allow: /skills
+
+User-agent: *
+Allow: /education
+
+User-agent: *
+Allow: /hobbies
+
+User-agent: *
+Allow: /github
