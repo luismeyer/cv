@@ -1,11 +1,11 @@
 import { Show } from "solid-js";
-import { Link } from "@solidjs/router";
 
 import { GithubLogo } from "../components/github-logo";
 import { Headline } from "../components/headline";
 import { Portrait } from "../components/potrait";
 import { LinkedInLogo } from "../components/linkedin-logo";
 import { PageProps } from "../routes/[page]";
+import { Link } from "../components/link";
 
 export function Person(props: PageProps) {
   return (
@@ -30,26 +30,15 @@ export function Person(props: PageProps) {
         </p>
 
         <div class="flex gap-8">
-          <Link
-            href="/github"
-            class="bg-main px-3 py-2 w-fit rounded text-white flex gap-2 items-center"
-          >
-            <div class="w-6 h-6">
-              <GithubLogo />
-            </div>
-
-            <span>Github</span>
+          <Link to="/github" icon={GithubLogo}>
+            Github
           </Link>
 
           <Link
-            href="https://www.linkedin.com/in/luis-meyer-030227232/"
-            class="bg-main px-3 py-2 w-fit rounded text-white flex gap-2 items-center"
+            to="https://www.linkedin.com/in/luis-meyer-030227232/"
+            icon={LinkedInLogo}
           >
-            <div class="w-6 h-6">
-              <LinkedInLogo />
-            </div>
-
-            <span>LinkedIn</span>
+            LinkedIn
           </Link>
         </div>
       </div>
