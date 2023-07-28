@@ -23,6 +23,10 @@ export default function Root() {
         <Meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta id="theme" name="theme-color" content="#ffffff" />
         <Meta name="description" content="Luis Meyer's CV and more..." />
+        <Meta
+          name="google-site-verification"
+          content="BaHFTlT_5_0z5ym34XTCb35KSGMAphuM-3hrtQSCeYM"
+        />
 
         <Title>Luis Meyer</Title>
 
