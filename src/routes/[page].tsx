@@ -32,7 +32,7 @@ const PAGES: Page[] = [
   { pathname: "/jobs", Component: Jobs },
   { pathname: "/skills", Component: Skills },
   { pathname: "/education", Component: Education },
-  { pathname: "/hobbies", Component: Internships },
+  { pathname: "/interns", Component: Internships },
   { pathname: "/github", Component: Github },
 ];
 
