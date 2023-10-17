@@ -1,9 +1,11 @@
-import { For, createEffect, createSignal, onCleanup, onMount } from "solid-js";
+import { createEffect, createSignal, For, onCleanup, onMount } from "solid-js";
+
+import { track } from "@vercel/analytics";
 
 import { GithubLogo } from "../components/github-logo";
 import { LetterColumn } from "../components/letter-column";
-import { getThemeTag } from "../utils/get-theme-tag";
 import { PageProps } from "../routes/[page]";
+import { getThemeTag } from "../utils/get-theme-tag";
 
 const COLUMN_WIDTH = 23;
 
@@ -43,6 +45,7 @@ export function Github(props: PageProps) {
 
       <a
         href="https://github.com/luismeyer"
+        onClick={() => track("Github Link Clicked")}
         class="flex items-center gap-2 md:gap-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
       >
         <div class="w-12 h-12 md:w-32 md:h-32 fill-white">

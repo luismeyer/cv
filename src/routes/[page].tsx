@@ -1,6 +1,7 @@
 import { createSignal, For, JSX, onCleanup, onMount } from "solid-js";
 
 import { useLocation, useNavigate } from "@solidjs/router";
+import { inject } from "@vercel/analytics";
 
 import { Education } from "../pages/education";
 import { Github } from "../pages/github";
@@ -37,6 +38,10 @@ const PAGES: Page[] = [
 ];
 
 export default function App() {
+  onMount(function () {
+    inject({ debug: true, mode: "auto" });
+  });
+
   const [scrolling, setScrolling] = createSignal(false);
 
   const location = useLocation();
