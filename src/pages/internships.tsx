@@ -12,6 +12,11 @@ const DATA: InfoItem[] = [
 
 export function Internships(props: PageProps) {
   return (
-    <InfoPage isVisible={props.isVisible} items={DATA} title="Internships" />
+    <InfoPage
+      gradientColors="from-teal-500 to-lime-500"
+      isVisible={props.isVisible}
+      items={DATA}
+      title="Internships"
+    />
   );
 }

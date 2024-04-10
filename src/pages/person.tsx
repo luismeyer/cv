@@ -16,7 +16,10 @@ export function Person(props: PageProps) {
         <span>Hi, i'm</span>
 
         <Show when={props.isVisible()}>
-          <Headline initialText="Luis Meyer" />
+          <Headline
+            gradientColors="from-cyan-500 to-blue-500"
+            initialText="Luis Meyer"
+          />
         </Show>
       </div>
 

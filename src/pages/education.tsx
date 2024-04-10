@@ -18,6 +18,11 @@ const DATA: InfoItem[] = [
 
 export function Education(props: PageProps) {
   return (
-    <InfoPage isVisible={props.isVisible} items={DATA} title="Education" />
+    <InfoPage
+      gradientColors="from-pink-500 to-cyan-500"
+      isVisible={props.isVisible}
+      items={DATA}
+      title="Education"
+    />
   );
 }

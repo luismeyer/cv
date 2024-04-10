@@ -25,7 +25,10 @@ export function Skills(props: PageProps) {
   return (
     <div class="flex flex-col justify-center p-8">
       <Show when={props.isVisible()}>
-        <Headline initialText="Skills" />
+        <Headline
+          gradientColors="from-red-500 to-yellow-500"
+          initialText="Skills"
+        />
       </Show>
 
       <Show when={props.isVisible()}>

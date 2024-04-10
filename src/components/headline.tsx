@@ -3,6 +3,7 @@ import { headlines } from "../stores/headlines";
 
 interface HeadlineProps {
   initialText: string;
+  gradientColors: string;
 }
 
 export function Headline(props: HeadlineProps) {
@@ -52,5 +53,11 @@ export function Headline(props: HeadlineProps) {
     }, 100);
   });
 
-  return <h1 class="text-6xl md:text-7xl font-bold mb-5 md:mb-10">{text()}</h1>;
+  return (
+    <h1
+      class={`text-6xl md:text-7xl font-bold mb-5 md:mb-10 bg-gradient-to-r ${props.gradientColors} rounded p-2 text-white`}
+    >
+      {text()}
+    </h1>
+  );
 }

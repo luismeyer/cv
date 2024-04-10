@@ -1,25 +1,29 @@
-import { Show, For } from "solid-js";
+import { Show, For, JSX } from "solid-js";
 import { Headline } from "./headline";
 import { InfoContent } from "./info-content";
 
 export interface InfoItem {
-  title: string;
+  title: JSX.Element;
   start: string;
   end: string;
-  description: string;
+  description?: string;
 }
 
 interface InfoPageProps {
   title: string;
   items: InfoItem[];
   isVisible: () => boolean;
+  gradientColors: string;
 }
 
 export function InfoPage(props: InfoPageProps) {
   return (
     <div class="max-w-2xl p-8">
       <Show when={props.isVisible()}>
-        <Headline initialText={props.title} />
+        <Headline
+          gradientColors={props.gradientColors}
+          initialText={props.title}
+        />
       </Show>
 
       <Show when={props.isVisible()}>
@@ -33,7 +37,9 @@ export function InfoPage(props: InfoPageProps) {
                   {job.start} - {job.end}
                 </span>
 
-                <p class="text-sm md:text-lg">{job.description}</p>
+                <Show when={job.description}>
+                  <p class="text-sm md:text-lg">{job.description}</p>
+                </Show>
               </InfoContent>
             )}
           </For>
