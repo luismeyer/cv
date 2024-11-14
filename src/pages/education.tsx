@@ -1,5 +1,5 @@
-import { InfoItem, InfoPage } from "../components/info-page";
-import { PageProps } from "../routes/[page]";
+import { type InfoItem, InfoPage } from "../components/info-page";
+import type { PageProps } from "../routes/[[page]]";
 
 const DATA: InfoItem[] = [
   {

@@ -14,7 +14,7 @@ export function Portrait() {
   let interval: number | undefined;
 
   function startFading() {
-    interval = setInterval(function () {
+    interval = setInterval(() => {
       setState((prev) => (prev + 1) % STYLES.length);
     }, ANIMATION_INTERVAL);
   }
@@ -23,11 +23,11 @@ export function Portrait() {
     clearInterval(interval);
   }
 
-  onMount(function () {
+  onMount(() => {
     startFading();
   });
 
-  onCleanup(function () {
+  onCleanup(() => {
     stopFading();
   });
 
@@ -53,6 +53,8 @@ export function Portrait() {
       class="relative row-span-2 justify-self-center self-center w-48 h-48 md:w-80 md:h-80 md:col-span-1 col-span-2 hover:cursor-none"
       onMouseLeave={startFading}
       onMouseOver={stopFading}
+      onFocus={stopFading}
+      onBlur={startFading}
     >
       <picture class={picture}>
         <source srcset="images/large/1.webp" media="(min-width: 768px)" />
@@ -60,7 +62,7 @@ export function Portrait() {
           style={style()}
           class={`${img} ${imageVisibleClass(0)}`}
           src="/images/small/1.webp"
-          alt="Picture of Luis Meyer"
+          alt="Luis Meyer"
         />
       </picture>
 
@@ -70,7 +72,7 @@ export function Portrait() {
           style={style()}
           class={`${img} ${imageVisibleClass(1)}`}
           src="/images/small/2.webp"
-          alt="Picture of Luis Meyer"
+          alt="Luis Meyer"
         />
       </picture>
 
@@ -80,7 +82,7 @@ export function Portrait() {
           style={style()}
           class={`${img} ${imageVisibleClass(2)}`}
           src="/images/small/3.webp"
-          alt="Picture of Luis Meyer"
+          alt="Luis Meyer"
         />
       </picture>
     </div>

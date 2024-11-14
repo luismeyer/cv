@@ -1,4 +1,4 @@
-import { JSXElement, ParentProps, Show } from "solid-js";
+import { type JSXElement, type ParentProps, Show } from "solid-js";
 
 import { Link as SolidLink } from "@solidjs/router";
 import { track } from "@vercel/analytics";
@@ -15,11 +15,9 @@ export function Link(props: LinkProps) {
       target={props.to.startsWith("http") ? "blank" : undefined}
       onClick={() => track("Solid Link Clicked", { link: props.to })}
     >
-      <span
-        class={`flex gap-1 items-center hover:underline transition-all text-gray-600 fill-gray-600 hover:text-blue-600 hover:fill-blue-600`}
-      >
+      <span class="flex gap-1 items-center hover:underline transition-all text-gray-600 fill-gray-600 hover:text-blue-600 hover:fill-blue-600">
         <Show when={props.icon}>
-          <div class="h-6">{props.icon && props.icon()}</div>
+          <div class="h-6">{props.icon?.()}</div>
         </Show>
 
         {props.children}

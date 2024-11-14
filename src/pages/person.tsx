@@ -4,7 +4,7 @@ import { GithubLogo } from "../components/github-logo";
 import { Headline } from "../components/headline";
 import { Portrait } from "../components/potrait";
 import { LinkedInLogo } from "../components/linkedin-logo";
-import { PageProps } from "../routes/[page]";
+import type { PageProps } from "../routes/[[page]]";
 import { Link } from "../components/link";
 
 export function Person(props: PageProps) {

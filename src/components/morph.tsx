@@ -18,14 +18,13 @@ export function Morph(props: MorphProps) {
   let running = false;
 
   function setMorph(fraction: number) {
-    fraction = Math.cos(fraction * Math.PI) / -2 + 0.5;
+    const fraction1 = Math.cos(fraction * Math.PI) / -2 + 0.5;
+    text2.style.filter = `blur(${Math.min(8 / fraction1 - 8, 100)}px)`;
+    text2.style.opacity = `${fraction1 ** 0.4 * 100}%`;
 
-    text2.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
-    text2.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`;
-
-    fraction = 1 - fraction;
-    text1.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
-    text1.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`;
+    const fraction2 = 1 - fraction1;
+    text1.style.filter = `blur(${Math.min(8 / fraction2 - 8, 100)}px)`;
+    text1.style.opacity = `${fraction2 ** 0.4 * 100}%`;
   }
 
   function step(timeStamp: number) {
@@ -89,7 +88,7 @@ export function Morph(props: MorphProps) {
       }}
       class="text-3xl font-bold cursor-pointer w-28 animate-shake"
       style={{ filter: "url(#threshold)" }}
-      onClick={start}
+      onMouseDown={start}
     >
       <span
         class="absolute select-none opacity-0 w-full text-4xl"
@@ -110,6 +109,7 @@ export function Morph(props: MorphProps) {
       </span>
 
       <svg id="filters" class="hidden">
+        <title>Morph</title>
         <defs>
           <filter id="threshold">
             <feColorMatrix

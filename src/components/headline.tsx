@@ -22,14 +22,14 @@ export function Headline(props: HeadlineProps) {
 
   let interval: number | undefined;
 
-  onMount(function () {
+  onMount(() => {
     // don't animate if the headline already was shown before
     if (headlines.exists(input)) {
       setText(input);
       return;
     }
 
-    interval = setInterval(async function () {
+    interval = setInterval(async () => {
       const random = Math.floor(Math.random() * 10);
       if (random === 0) {
         return;

@@ -4,7 +4,7 @@ import { track } from "@vercel/analytics";
 
 import { GithubLogo } from "../components/github-logo";
 import { LetterColumn } from "../components/letter-column";
-import { PageProps } from "../routes/[page]";
+import type { PageProps } from "../routes/[[page]]";
 import { getThemeTag } from "../utils/get-theme-tag";
 
 const COLUMN_WIDTH = 23;
@@ -16,13 +16,13 @@ export function Github(props: PageProps) {
     setColumnAmount([...Array(Math.round(window.innerWidth / COLUMN_WIDTH))]);
   }
 
-  onMount(function () {
+  onMount(() => {
     updateSignal();
 
     window.addEventListener("resize", updateSignal);
   });
 
-  onCleanup(function () {
+  onCleanup(() => {
     window.removeEventListener("resize", updateSignal);
   });
 

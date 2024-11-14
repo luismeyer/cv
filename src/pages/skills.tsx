@@ -2,21 +2,21 @@ import { For, Show } from "solid-js";
 
 import { Headline } from "../components/headline";
 import { Skill } from "../components/skill";
-import { PageProps } from "../routes/[page]";
+import type { PageProps } from "../routes/[[page]]";
 
-interface Skill {
+interface SkillData {
   rating: number;
   name: string;
 }
 
-const SKILLS: Skill[] = [
+const SKILLS: SkillData[] = [
   { rating: 5, name: "TypeScript" },
   { rating: 4, name: "AWS" },
   { rating: 5, name: "Node.js" },
   { rating: 5, name: "React" },
 ];
 
-const LANGUAGES: Skill[] = [
+const LANGUAGES: SkillData[] = [
   { rating: 5, name: "English" },
   { rating: 5, name: "German" },
 ];

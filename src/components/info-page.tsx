@@ -1,4 +1,4 @@
-import { Show, For, JSX } from "solid-js";
+import { Show, For, type JSX } from "solid-js";
 import { Headline } from "./headline";
 import { InfoContent } from "./info-content";
 

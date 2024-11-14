@@ -1,6 +1,6 @@
-import { InfoItem, InfoPage } from "../components/info-page";
+import { type InfoItem, InfoPage } from "../components/info-page";
 import { Morph } from "../components/morph";
-import { PageProps } from "../routes/[page]";
+import type { PageProps } from "../routes/[[page]]";
 
 const DATA: InfoItem[] = [
   {

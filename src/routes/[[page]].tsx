@@ -1,4 +1,4 @@
-import { createSignal, For, JSX, onCleanup, onMount } from "solid-js";
+import { createSignal, For, type JSX, onCleanup, onMount } from "solid-js";
 
 import { useLocation, useNavigate } from "@solidjs/router";
 import { inject } from "@vercel/analytics";
@@ -20,7 +20,7 @@ export interface PageProps {
 }
 
 // the scroll delta that needs to be exceeded before triggering a page update
-const WHEEL_THRESHHOLD = 50;
+const WHEEL_THRESHHOLD = 10;
 
 // the touch move delta that needs to be exceeded before triggering a page update
 const TOUCH_THRESHHOLD = 10;
@@ -29,7 +29,7 @@ const TOUCH_THRESHHOLD = 10;
 const SCROLL_TIME = 500;
 
 const PAGES: Page[] = [
-  { pathname: "/personal", Component: Person },
+  { pathname: "/", Component: Person },
   { pathname: "/jobs", Component: Jobs },
   { pathname: "/skills", Component: Skills },
   { pathname: "/education", Component: Education },
@@ -38,7 +38,7 @@ const PAGES: Page[] = [
 ];
 
 export default function App() {
-  onMount(function () {
+  onMount(() => {
     inject({ debug: true, mode: "auto" });
   });
 
@@ -56,23 +56,24 @@ export default function App() {
 
   // scroll to new page and update the location accordingly
   function changePage(newPage: number) {
-    if (pageIndex() === newPage) {
+    const current = pageIndex();
+    if (current === newPage) {
       return;
     }
 
     setScrolling(true);
 
-    if (newPage > pageIndex()) {
+    if (newPage > current) {
       // don't scroll if on last page
-      if (pageIndex() >= PAGES.length - 1) {
+      if (current >= PAGES.length - 1) {
         setScrolling(false);
         return;
       }
     }
 
-    if (newPage < pageIndex()) {
+    if (newPage < current) {
       // don't scroll if on first page
-      if (pageIndex() <= 0) {
+      if (current <= 0) {
         setScrolling(false);
         return;
       }
@@ -80,7 +81,7 @@ export default function App() {
 
     const { pathname } = PAGES[newPage] ?? {};
     if (pathname) {
-      navigate(pathname);
+      navigate(pathname, { resolve: false });
     }
   }
 
@@ -164,7 +165,7 @@ export default function App() {
 
   const abortController = new AbortController();
 
-  onMount(function () {
+  onMount(() => {
     const options = {
       passive: true,
       signal: abortController.signal,
@@ -178,7 +179,7 @@ export default function App() {
     document.addEventListener("keydown", handleKey, options);
   });
 
-  onCleanup(function () {
+  onCleanup(() => {
     abortController.abort();
   });
 
@@ -196,7 +197,7 @@ export default function App() {
         {({ Component }, index) => (
           <div class="w-screen h-screen flex items-center justify-center relative">
             <Component
-              isVisible={function () {
+              isVisible={() => {
                 if (scrolling()) {
                   // while scrolling the surrounding pages should still visible
                   return (
