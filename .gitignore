@@ -3,3 +3,5 @@ dist
 .solid
 .vercel
 .DS_Store
+.output
+.vinxi
