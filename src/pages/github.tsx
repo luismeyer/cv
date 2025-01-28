@@ -16,14 +16,20 @@ export function Github(props: PageProps) {
     setColumnAmount([...Array(Math.round(window.innerWidth / COLUMN_WIDTH))]);
   }
 
+  const abortController = new AbortController();
+
   onMount(() => {
     updateSignal();
 
-    window.addEventListener("resize", updateSignal);
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", updateSignal, {
+        signal: abortController.signal,
+      });
+    }
   });
 
   onCleanup(() => {
-    window.removeEventListener("resize", updateSignal);
+    abortController.abort();
   });
 
   createEffect(() => {

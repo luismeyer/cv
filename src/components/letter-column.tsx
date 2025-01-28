@@ -9,7 +9,8 @@ const LETTER_HEIGHT = 19;
 export function LetterColumn(props: LetterColumnProps) {
   // we can safely access the window here. We don't render any
   // columns on the server because they depend on the window width
-  const maxHeight = window.innerHeight;
+  // const maxHeight = window.innerHeight;
+  const maxHeight = 1000;
 
   const lettersAmount = Math.round(maxHeight / LETTER_HEIGHT);
 

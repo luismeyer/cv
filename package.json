@@ -1,25 +1,25 @@
 {
-  "name": "vite-template-solid",
+  "name": "luismeyer",
   "version": "1.0.0",
   "description": "",
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "solid-start build",
-    "compile": "tsc --build",
-    "compile:watch": "tsc --build --watch",
-    "dev": "solid-start dev",
+    "build": "vinxi build",
+    "dev": "vinxi dev",
     "lint": "eslint ./ --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "yarn lint --fix",
     "serve": "vite preview",
-    "start": "solid-start start"
+    "start": "vinxi start",
+    "version": "vinxi version"
   },
   "dependencies": {
-    "@solidjs/meta": "^0.28.5",
-    "@solidjs/router": "^0.8.2",
+    "@solidjs/meta": "^0.29.4",
+    "@solidjs/router": "^0.13.3",
+    "@solidjs/start": "^1.0.0",
     "@vercel/analytics": "^1.1.1",
-    "solid-js": "^1.7.2",
-    "solid-start": "^0.2.32"
+    "solid-js": "^1.8.17",
+    "vinxi": "^0.3.11"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.50.0",
@@ -33,5 +33,8 @@
     "typescript": "^4.9.4",
     "vite": "^4.1.1"
   },
-  "packageManager": "pnpm@8.11.0+sha512.9df87c16c98db27b4e051d787e67f2207ec47e809ccb07bf7b5ec4acdcd1613355839a38d0b900144923d6a7057700b74d2a0ccb1558beb241647a1206a9a7ab"
+  "packageManager": "pnpm@8.11.0+sha512.9df87c16c98db27b4e051d787e67f2207ec47e809ccb07bf7b5ec4acdcd1613355839a38d0b900144923d6a7057700b74d2a0ccb1558beb241647a1206a9a7ab",
+  "engines": {
+    "node": ">=20"
+  }
 }

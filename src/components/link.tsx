@@ -1,6 +1,6 @@
 import { type JSXElement, type ParentProps, Show } from "solid-js";
 
-import { Link as SolidLink } from "@solidjs/router";
+import { A } from "@solidjs/router";
 import { track } from "@vercel/analytics";
 
 interface LinkProps extends ParentProps {
@@ -10,7 +10,7 @@ interface LinkProps extends ParentProps {
 
 export function Link(props: LinkProps) {
   return (
-    <SolidLink
+    <A
       href={props.to}
       target={props.to.startsWith("http") ? "blank" : undefined}
       onClick={() => track("Solid Link Clicked", { link: props.to })}
@@ -22,6 +22,6 @@ export function Link(props: LinkProps) {
 
         {props.children}
       </span>
-    </SolidLink>
+    </A>
   );
 }
